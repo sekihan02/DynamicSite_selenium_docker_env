@@ -1,0 +1,48 @@
+# 初回
+docker login
+docker pull ubuntu
+docker run -v ~/Documents/docker:/work -p 8888:8888 --name python_pra datascientistus/ds-python-env
+
+docker build ./ --build-arg USERNAME=$USER  -t 202169_env
+docker run --rm -v C:/Users/202169/Documents/workspace:/work -p 8888:8888 --name analysis_env 202169_env
+docker restart analysis_env
+docker stop analysis_env 
+docker rm analysis_env 
+
+# docker-compose使用時の初回
+# wslの起動状態の確認
+wsl -l -v
+# Ubuntu-20.04, docker-desktop, docker-desktop-dataがRunningの状態にあることを確認してくださいVersion2なのも
+# wslの起動
+wsl
+# dockerファイルと.ymlファイルがある場所で
+docker-compose up --build 
+---
+# 通常の起動コマンド
+wsl
+docker-compose up 
+---
+
+# コンテナ一覧表示
+docker ps -a
+
+# docker image一覧表示
+docker images
+
+# Dockerfileからimageを<image>名でビルド
+docker build ./ --build-arg USERNAME=$USER  -t <image> [docker build ./ --build-arg USERNAME=$USER  -t <image>]
+
+# containerからGPUが見えることの確認
+docker run --gpus all --rm <image> nvidia-smi
+
+# docker imageからコンテナを起動
+docker run <image> [オプション付き：docker run --rm -v ~/Documents/docker/workspace/analysis_env:/work -p 8888:8888 --name test_env <image>]
+
+# コンテナを止める
+docker stop <container>
+
+# コンテナの削除
+docker rm <container>
+
+# コンテナをrestart
+docker restart <container>
